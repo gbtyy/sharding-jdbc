@@ -1,134 +1,97 @@
-##Sharding-JDBC - A JDBC driver for shard databases and tables
+# [Sharding-Sphere - Distributed Database Middleware Ecosphere](http://shardingsphere.io/)
 
-`Sharding-JDBC`是当当应用框架`ddframe`中，关系型数据库模块`dd-rdb`中分离出来的数据库水平扩展框架，即透明化数据库分库分表访问。
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Gitter](https://badges.gitter.im/shardingsphere/shardingsphere.svg)](https://gitter.im/shardingsphere/Lobby)
+[![GitHub release](https://img.shields.io/github/release/sharding-sphere/sharding-sphere.svg)](https://github.com/sharding-sphere/sharding-sphere/releases)
 
-`Sharding-JDBC`继`dubbox`和`elastic-job`之后，是`ddframe`系列开源的第三个产品。
+[![Build Status](https://api.travis-ci.org/sharding-sphere/sharding-sphere.png?branch=master)](https://travis-ci.org/sharding-sphere/sharding-sphere)
+[![Coverage Status](https://codecov.io/github/sharding-sphere/sharding-sphere/coverage.svg?branch=master)](https://codecov.io/github/sharding-sphere/sharding-sphere?branch=master)
+[![OpenTracing-1.0 Badge](https://img.shields.io/badge/OpenTracing--1.0-enabled-blue.svg)](http://opentracing.io)
+[![Skywalking Tracing](https://img.shields.io/badge/Skywalking%20Tracing-enable-brightgreen.svg)](https://github.com/OpenSkywalking/skywalking)
 
-# Release Notes
-* sharding-jdbc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Maven Status](https://maven-badges.herokuapp.com/maven-central/com.dangdang/sharding-jdbc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.dangdang/sharding-jdbc)
-* sharding-jdbc-core&nbsp;&nbsp;[![Maven Status](https://maven-badges.herokuapp.com/maven-central/com.dangdang/sharding-jdbc-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.dangdang/sharding-jdbc-core)
+## Document
 
-# License
-[![Hex.pm](http://dangdangdotcom.github.io/sharding-jdbc/img/license.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![EN doc](https://img.shields.io/badge/document-English-blue.svg)](http://shardingsphere.io/document/current/en/)
+[![Roadmap](https://img.shields.io/badge/roadmap-English-blue.svg)](ROADMAP.md)
 
-# Build Status
-[![Build Status](https://secure.travis-ci.org/dangdangdotcom/sharding-jdbc.png?branch=master)](https://travis-ci.org/dangdangdotcom/sharding-jdbc)
-[![Coverage Status](https://coveralls.io/repos/dangdangdotcom/sharding-jdbc/badge.svg?branch=master&service=github)](https://coveralls.io/github/dangdangdotcom/sharding-jdbc?branch=master)
+[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](http://shardingsphere.io/document/current/cn/)
 
-# 主要贡献者
+## Overview
 
-* 张亮 &nbsp;&nbsp;&nbsp;[当当](http://www.dangdang.com/) zhangliang@dangdang.com
-* 高洪涛 [当当](http://www.dangdang.com/) gaohongtao@dangdang.com
-* 曹昊 &nbsp;&nbsp;&nbsp;[当当](http://www.dangdang.com/) caohao@dangdang.com
-* 岳令 &nbsp;&nbsp;&nbsp;[当当](http://www.dangdang.com/) yueling@dangdang.com
+Sharding-Sphere is an open source distributed database middleware solution suite, which consists of Sharding-JDBC, Sharding-Proxy and Sharding-Sidecar. These three sub-projects are suitable for various scenarios and provide consistent functions including data sharding, distributed transaction and database orchestration.
 
-**讨论QQ群：**532576663（不限于Sharding-JDBC，包括分布式，数据库相关以及其他互联网技术交流。）
+As a Relational Database Middleware, rather than implementing a new database, Sharding-Sphere is aimed at making the most of original capacities of database (like compute and storage) and making it simpler and more efficient on distribute environment. 
+It can cooperate with NoSQL and NewSQL, which keep staying in the cutting edge of technology and recommendable. Meanwhile, Sharding-Sphere focuses on technologies remaining stable and changeless so as to grasp the intrinsic quality. 
+Relational Database is still the cornerstone of core business in enterprises and possesses huge market share. It is difficult to estimate trendy in future and now we focus on how to enhance the capacity of Sharding-Sphere with Relational Database.
 
-# 简介
+![Sharding-Sphere Score](http://ovfotjrsi.bkt.clouddn.com/sphere_scope_en.png)
 
-`Sharding-JDBC`直接封装`JDBC API`，可以理解为增强版的`JDBC`驱动，旧代码迁移成本几乎为零：
+### Sharding-JDBC
 
-* 可适用于任何基于`java`的`ORM`框架，如：`JPA`, `Hibernate`, `Mybatis`, `Spring JDBC Template`或直接使用`JDBC`。
-* 可基于任何第三方的数据库连接池，如：`DBCP`, `C3P0`, `BoneCP`, `Druid`等。
-* 理论上可支持任意实现`JDBC`规范的数据库。虽然目前仅支持`MySQL`，但已有支持`Oracle`，`SQLServer`，`DB2`等数据库的计划。
+[![Maven Status](https://maven-badges.herokuapp.com/maven-central/io.shardingsphere/sharding-jdbc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.shardingsphere/sharding-jdbc)
 
-`Sharding-JDBC`定位为轻量级`java`框架，使用客户端直连数据库，以`jar`包形式提供服务，未使用中间层，无需额外部署，无其他依赖，`DBA`也无需改变原有的运维方式。`SQL`解析使用`Druid`解析器，是目前性能最高的`SQL`解析器。
+Sharding-JDBC is positioned as a lightweight Java framework that provides Sharding service in the JDBC layer. 
+It directly connects to databases to provide services in the form of jar, with no additional deployment and dependencies, and it can be understood as an enhanced version of the JDBC driver, fully compliant with JDBC and various ORM frameworks.
 
-`Sharding-JDBC`功能灵活且全面：
+* It is compliant with any Java-based ORM framework, such as JPA, Hibernate, Mybatis and Spring JDBC Template; or you can use JDBC directly.
+* It is suitable for connection-pool based on any third party, such as DBCP, C3P0, BoneCP, Druid, HikariCP and so on.
+* It supports databases implementing JDBC specification. Supporting MySQL, Oracle, SQLServer and PostgreSQL right now.
 
-* 分片策略灵活，可支持`=`，`BETWEEN`，`IN`等多维度分片，也可支持多分片键共用。
-* `SQL`解析功能完善，支持聚合，分组，排序，`Limit`，`OR`等查询，并且支持`Binding Table`以及笛卡尔积的表查询。
+![Sharding-JDBC Architecture](http://ovfotjrsi.bkt.clouddn.com/sharding-jdbc-brief.png)
 
-***
+### Sharding-Proxy
 
-以下是常见的分库分表产品和`Sharding-JDBC`的对比：
+[![Download](https://img.shields.io/badge/release-download-orange.svg)](https://github.com/sharding-sphere/sharding-sphere-doc/raw/master/dist/sharding-proxy-3.0.0.M2.tar.gz)
+[![Docker Pulls](https://img.shields.io/docker/pulls/shardingsphere/sharding-proxy.svg)](https://store.docker.com/community/images/shardingsphere/sharding-proxy)
 
-| 功能          | Cobar         | Cobar-client  | TDDL        | Sharding-JDBC  |
-| ------------- |:-------------:| -------------:| -----------:|---------------:|
-| 分库          | 有            | 有             | 未开源      | 有              |
-| 分表          | 无            | 无             | 未开源      | 有              |
-| 中间层        | 是            | 否             | 否          | 否              |
-| ORM支持       | 任意          | 仅MyBatis      | 任意        | 任意            |
-| 数据库支持     | 仅MySQL       | 任意           | 任意        | 任意            |
-| 异构语言       | 可           | 仅Java          | 仅Java     | 仅Java          |
-| 外部依赖       | 无           | 无              | Diamond    | 无              |
+Sharding-Proxy is positioned as a transparent database proxy, providing a database server that encapsulates database binary protocol to support heterogeneous languages. 
+At present, we provide Sharding-Proxy for MySQL, and you can use any clients compatible with MySQL protocol (such as MySQL Command Client, MySQL Workbench, etc.) to manipulate data.
 
-***
+* It is transparent to application, which can be used as MySQL.
+* It is suitable for any clients compatible with MySQL protocol.
 
-# 整体架构图
+![Sharding-Proxy Architecture](http://ovfotjrsi.bkt.clouddn.com/sharding-proxy-brief_v2.png)
 
-![整体架构图](http://dangdangdotcom.github.io/sharding-jdbc/img/architecture.png)
+### Sharding-Sidecar(TBD)
 
-# 相关文档
+It is positioned as cloud native database agent of Kubernetes or Mesos environment, in charge of all database access in the form of DaemonSet. 
+Through a centre-less and zero-cost solution, it provides mesh layer interacting with database. We call it `Database Mesh`.
 
-[Release Notes](http://dangdangdotcom.github.io/sharding-jdbc/post/release_notes/)
+Database Mesh emphasizes how to connect distributed data-access-layer with databases. It pays more attention to interaction, which means the messy interaction between applications and databases will be effectively orchestrated. 
+By using Database Mesh, applications and databases will form a large grid system, where they just need to be put into the right position accordingly. They are all governed by mesh layer.
 
-[使用指南](http://dangdangdotcom.github.io/sharding-jdbc/post/user_guide/)
+![Sharding-Sidecar Architecture](http://ovfotjrsi.bkt.clouddn.com/sharding-sidecar-brief.png)
 
-[详细功能列表](http://dangdangdotcom.github.io/sharding-jdbc/post/features/)
+|                        | *Sharding-JDBC* | *Sharding-Proxy* | *Sharding-Sidecar* |
+| ---------------------- | --------------- | ---------------- | ------------------ |
+| Database               | Any             | MySQL            | MySQL              |
+| Connections Cost       | More            | Less             | More               |
+| Heterogeneous Language | Java Only       | Any              | Any                |
+| Performance            | Low loss        | High loss        | Low loss           |
+| Centre-less            | Yes             | No               | No                 |
+| Static Entry           | No              | Yes              | No                 |
 
-[架构图](http://dangdangdotcom.github.io/sharding-jdbc/post/architecture/)
+## Features
 
-[目录结构说明](http://dangdangdotcom.github.io/sharding-jdbc/post/directory_structure)
+### Data sharding
 
-[阅读源码编译问题说明](http://dangdangdotcom.github.io/elastic-job/post/source_code_guide)
+* Both databases and tables sharding.
+* Read-write splitting supported.
+* Aggregation functions, GROUP BY, ORDER BY, LIMIT, OR, and JOIN DQL supported.
+* DML, DDL, TCL and database management command supported.
+* Sharding operator `=`, `BETWEEN` and `IN` supported.
+* Sharding algorithm customization and inline expression supported.
+* Forced route based on hint.
+* Distributed primary key.
 
-[使用限制](http://dangdangdotcom.github.io/sharding-jdbc/post/limitations/)
+### Transaction
 
-[压力测试报告](http://dangdangdotcom.github.io/sharding-jdbc/post/stress_test/)
+* XA transaction supported.
+* Best-Effort-Delivery transaction supported.
+* Try-Confirm-Cancel transaction (TBD) supported.
 
-[未来线路规划](http://dangdangdotcom.github.io/sharding-jdbc/post/roadmap/)
+### Database Orchestration
 
-[事务支持说明](http://dangdangdotcom.github.io/sharding-jdbc/post/transaction/)
-
-[InfoQ新闻](http://www.infoq.com/cn/news/2016/01/sharding-jdbc-dangdang)
-
-[CSDN文章](http://geek.csdn.net/news/detail/55513)
-
-# Quick Start
-
-## 引入maven依赖
-
-```xml
-<!-- 引入sharding-jdbc核心模块 -->
-<dependency>
-    <groupId>com.dangdang</groupId>
-    <artifactId>sharding-jdbc-core</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
-## 规则配置
-`Sharding-JDBC`的分库分表通过规则配置描述，请简单浏览配置全貌：
-```java
- ShardingRule shardingRule = new ShardingRule(
-                dataSourceRule, 
-                Arrays.asList(tableRule), 
-                new DatabaseShardingStrategy("sharding_column_1", new XXXShardingAlgorithm()),
-                new TableShardingStrategy("sharding_column_2", new XXXShardingAlgorithm()));
-```
-规则配置包括数据源配置、表规则配置、分库策略和分表策略组成。这只是最简单的配置方式，实际使用可更加灵活，如：多分片键，分片策略直接和`tableRule`绑定等。
-
->详细的规则配置请参考[用户指南](http://dangdangdotcom.github.io/sharding-jdbc/post/user_guide/)
-
-## 使用基于ShardingDataSource的JDBC接口
-通过规则配置对象获取`ShardingDataSource`，`ShardingDataSource`实现自`JDBC`的标准接口`DataSource`。然后可通过`DataSource`选择使用原生`JDBC`开发，或者使用`JPA`, `MyBatis`等`ORM`工具。
-以`JDBC`原生实现为例：
-```java
-DataSource dataSource = new ShardingDataSource(shardingRule);
-String sql = "SELECT i.* FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id WHERE o.user_id=? AND o.order_id=?";
-try (
-        Connection conn = dataSource.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    pstmt.setInt(1, 10);
-    pstmt.setInt(2, 1001);
-    try (ResultSet rs = pstmt.executeQuery()) {
-        while(rs.next()) {
-            System.out.println(rs.getInt(1));
-            System.out.println(rs.getInt(2));
-            System.out.println(rs.getInt(3));
-        }
-    }
-}
-```
-
+* Configuration center dynamic configuration supported.
+* Circuit breaker supported.
+* Open tracing supported.
